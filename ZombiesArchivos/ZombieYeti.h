@@ -6,11 +6,12 @@
 
 class ZombieYeti : public Zombie {
 public:
-    ZombieYeti();
-    //FALTA AGREGAR SU HABILIDAD
-    void mover();
-    void atacarCasa();
-    void atacarPlanta();
+    ZombieYeti() : Zombie('Y', 300, 30, 3, ) {}
+
+
+    int mover() override;
+    void atacar(Planta* _planta) override;
+    void habilidadEspecial() override;
 };
 
 

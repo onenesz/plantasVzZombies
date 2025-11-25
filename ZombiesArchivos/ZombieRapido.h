@@ -4,19 +4,13 @@
 
 #include "Zombie.h"
 
-class ZombieSaltador : public Zombie {
+class ZombieRapido : public Zombie {
 public:
-    class ZombieCasco : public Zombie {
-    public:
-        ZombieCasco():Zombie('*', 200, 30, 1){}
+    ZombieRapido():Zombie('R', 70, 5, 1, 2){}
+    int mover () override;
+    void atacar(Planta *_planta) override;
 
-        //HABILIDAD ESPECIAL
-        //void habilidadEspecial (CTablero tablero, vector<CPLantas> plantas) override;
-
-        bool mover (int _contarTurnos, int _velocidad) override;
-        void atacar(Planta *_planta);
     };
-};
 
 
 #endif //PVZ_ZOMBIERAPIDO_H

@@ -1,16 +1,20 @@
 
 #ifndef PVZ_ZOMBIESALTADOR_H
 #define PVZ_ZOMBIESALTADOR_H
-
 #include "Zombie.h"
 
 class ZombieSaltador : public Zombie {
 public:
-    ZombieSaltador();
-    //FALTA AGREGAR SU HABILIDAD
-    void mover();
-    void atacarCasa();
-    void atacarPlanta();
+    ZombieSaltador() : Zombie('J',120, 10,5,3) {}
+
+    int mover() override;
+
+    void atacar(Planta* _planta) override;
+
+    void habilidadEspecial () override;
+
+
+
 };
 
 

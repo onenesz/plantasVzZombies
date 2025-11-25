@@ -5,4 +5,9 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(pvz
         ZombiesArchivos/Zombie.h
-        TableroArchivos/Tablero.cpp)
+        TableroArchivos/Tablero.cpp
+        JuegoArchivos/juego.cpp
+        JuegoArchivos/Juego.h
+        main.cpp
+        ZombiesArchivos/zombiesTotales.h
+        PlantasArchivos/plantasTotales.h)

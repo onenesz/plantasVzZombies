@@ -9,26 +9,34 @@ protected:
     char icono;
     int vida;
     int danio;
-    int velocidad;
-    int contarTurnos;
-    int fila;
-    int columna;
+    int velocidad;          //Turnos que deben pasar para un movimiento
+    int pasosPorMovimiento;    //Casillas que avanza en ese movimiento
+    int contarTurnos;       //Contador de turnos transcurridos
+
+    //ATRIBUTOS DE POSICION
+    int fila, columna;
+
 public:
-    Zombie(char _icono, int _vida, int _danio, int _velocidad, int _fila, int _columna): icono(_icono), vida(_vida), danio(_danio),
-    velocidad(_velocidad), contarTurnos(0), fila(_fila), columna(8) {}
+    Zombie(char _icono, int _vida, int _danio, int _velocidad, int _fila)
+    : icono(_icono), vida(_vida), danio(_danio), velocidad(_velocidad), pasosPorMovimiento(1),
+    contarTurnos(0), fila(_fila), columna(8) {}
+
+    //DESTRUCTOR
     virtual ~Zombie() = default;
-    virtual bool mover(int _contarTurnos, int velocidad)=0;
+
+    //ACCIONES
+    virtual int mover() = 0;
+    void aplicarMovimiento (int pasos) { this->columna -= pasos; }
     virtual void atacar(Planta* _planta) = 0;
-    virtual void habilidadEspecial ()=0;
-
-
-    //SETTER
     void recibirDanio (int danioPlanta);
 
-    //GETTER
-    int getVida() const {return vida;}
-    int getDanio() const {return danio;}
-    char getIcono() const {return icono;}
+    //HABILIDAD
+    virtual void habilidadEspecial () = 0;
+
+    //GETTERS
+    int getVida() const { return vida; }
+    int getDanio() const { return danio; }
+    char getIcono() const { return icono; }
     int getFila() const { return fila; }
     int getColumna() const { return columna; }
 

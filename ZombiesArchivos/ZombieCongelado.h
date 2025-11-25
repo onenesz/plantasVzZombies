@@ -5,13 +5,9 @@
 
 class ZombieCongelado : public Zombie {
 public:
-    ZombieCongelado():Zombie('#', 100, 20, 2){}
-
-    //HABILIDAD ESPECIAL
-    //void habilidadEspecial (CTablero tablero, vector<CPLantas> plantas) override;
-
-    bool mover (int _contarTurnos, int _velocidad) override;
-    void atacar(Planta *_planta);
+    ZombieCongelado():Zombie('L', 150, 15, 2,1){}
+    int mover () override;
+    void atacar(Planta *_planta) override;
 };
 
 #endif //PVZ_ZOMBIECONGELADO_H

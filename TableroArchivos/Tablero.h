@@ -13,7 +13,9 @@ private:
     int fila, columna;
 
 public:
-    Tablero():fila(9), columna(5){};
+    Tablero() : fila(5), columna(9) {
+        tabla.resize(fila, vector<Planta*>( columna, nullptr)); //nullptr es el valor inicial, guarda punteros
+    };
     ~Tablero() = default;
     void mostrarTablero(const vector<Zombie*>& zombis);
     bool estaVacia(int _fila, int _columna);
