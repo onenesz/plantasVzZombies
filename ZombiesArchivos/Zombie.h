@@ -10,16 +10,15 @@ protected:
     int vida;
     int danio;
     int velocidad;          //Turnos que deben pasar para un movimiento
-    int pasosPorMovimiento;    //Casillas que avanza en ese movimiento
     int contarTurnos;       //Contador de turnos transcurridos
+    int alcance;
 
     //ATRIBUTOS DE POSICION
     int fila, columna;
 
 public:
-    Zombie(char _icono, int _vida, int _danio, int _velocidad, int _fila)
-    : icono(_icono), vida(_vida), danio(_danio), velocidad(_velocidad), pasosPorMovimiento(1),
-    contarTurnos(0), fila(_fila), columna(8) {}
+    Zombie(char _icono, int _vida, int _danio, int _velocidad, int _fila) : icono(_icono), vida(_vida), danio(_danio), velocidad(_velocidad),
+    contarTurnos(0), fila(_fila), columna(8), alcance(0) {}
 
     //DESTRUCTOR
     virtual ~Zombie() = default;
@@ -28,7 +27,7 @@ public:
     virtual int mover() = 0;
     void aplicarMovimiento (int pasos) { this->columna -= pasos; }
     virtual void atacar(Planta* _planta) = 0;
-    void recibirDanio (int danioPlanta);
+    virtual void recibirDanio (int danioPlanta) = 0;
 
     //HABILIDAD
     virtual void habilidadEspecial () = 0;

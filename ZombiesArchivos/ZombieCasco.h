@@ -5,12 +5,16 @@
 #include "Zombie.h"
 
 class ZombieCasco : public Zombie {
-    public:
-        ZombieCasco():Zombie('*', 200, 30, 1, ){}
+private:
+    int turnosAtaques;
+public:
+    ZombieCasco(int _fila):Zombie('*', 200, 30, 1, _fila), turnosAtaques(0) {}
 
-        int mover () override;
-        void atacar(Planta *_planta) override;
-
+    //METODOS
+    int mover () override;
+    void atacar(Planta *_planta) override;
+    void habilidadEspecial() override;
+    void recibirDanio (int danioPlanta) override;
 };
 
 #endif //PVZ_ZOMBIECASCO_H

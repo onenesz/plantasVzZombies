@@ -1,17 +1,28 @@
 #include "ZombieCasco.h"
 
-//void ZombieCasco:: habilidadEspecial () {
-// cout << "Con su ventisca de hielo emerge y a las plantas lentas hace";}
-//
-
 int ZombieCasco:: mover() {
-    this->contarTurnos++;
-    if (this -> contarTurnos >= velocidad) {
-        this -> contarTurnos = 0;
-        return this -> pasosPorMovimiento;
-    } return 0;}
+    contarTurnos++;
+    if (contarTurnos >= velocidad) {
+        contarTurnos = 0;
+        return 1;
+    }
+    return 0;
+}
 
 void ZombieCasco:: atacar(Planta* _planta) {
     _planta->recibirDanio(danio);
 }
+
+void ZombieCasco::recibirDanio (int danioPlanta) {
+    if (turnosAtaques < 3) {
+        cout << "El casco del zombie lo protege!" << endl;
+        vida -= danioPlanta * 0.5;
+        turnosAtaques++;
+    } else {
+        cout << "Se rompio el casco!" << endl;
+        vida -= danioPlanta;
+    }
+}
+
+void ZombieCasco::habilidadEspecial() {}
 

@@ -1,16 +1,18 @@
 #include "ZombieCongelado.h"
 
-//void ZombieCongelado:: habilidadEspecial () {
-   // cout << "Con su ventisca de hielo emerge y a las plantas lentas hace";}
-
 int ZombieCongelado:: mover() {
-    this->contarTurnos++;
-    if (this -> contarTurnos >= this->velocidad) {
-        this -> contarTurnos = 0;
-        return this -> pasosPorMovimiento;}
+    contarTurnos++;
+    if (contarTurnos >= velocidad) {
+        contarTurnos = 0;
+        return 1;
+    }
     return 0;
 }
 
 void ZombieCongelado:: atacar(Planta* _planta) {
-    _planta->recibirDanio(danio);
+    _planta -> recibirDanio(danio);
+}
+
+void ZombieCongelado::habilidadEspecial() {
+    cout << "Con su ventisca de hielo emerge y a las plantas lentas hace" << endl;
 }

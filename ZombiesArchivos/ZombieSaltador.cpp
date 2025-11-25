@@ -1,12 +1,13 @@
 #include "ZombieSaltador.h"
 
 int ZombieSaltador:: mover() {
-    this->contarTurnos++;
-    if (this->contarTurnos == 1 || this->contarTurnos==2) {
-        return 1;} else if (this->contarTurnos== 3) {
-            this->contarTurnos = 0;
-            return 2;
-        }
+    contarTurnos++;
+    if (contarTurnos == 1 || contarTurnos==2) {
+        return 1;
+    } else if (contarTurnos == 3) {
+        contarTurnos = 0;
+        return 2;
+    }
     return 0;
 }
 
@@ -17,7 +18,7 @@ void ZombieSaltador:: habilidadEspecial() {
             nuevaFila = rand() % 5;
         }
         this -> fila = nuevaFila;
-        cout << "Zombie Saltador se ha movido a la fila " << this -> fila << endl;
+        cout << "Zombie Saltador se ha movido a la fila " << fila << endl;
     }
 }
 
