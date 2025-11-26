@@ -22,3 +22,7 @@ void ZombieRapido :: atacar (Planta* _planta) {
 }
 
 void ZombieRapido::habilidadEspecial() {}
+
+void ZombieRapido::recibirDanio (int danioPlanta) {
+    vida = max(0, vida - danioPlanta);
+}

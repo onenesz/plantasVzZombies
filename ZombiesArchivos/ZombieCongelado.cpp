@@ -16,3 +16,7 @@ void ZombieCongelado:: atacar(Planta* _planta) {
 void ZombieCongelado::habilidadEspecial() {
     cout << "Con su ventisca de hielo emerge y a las plantas lentas hace" << endl;
 }
+
+void ZombieCongelado::recibirDanio (int danioPlanta) {
+    vida = max(0, vida - danioPlanta);
+}

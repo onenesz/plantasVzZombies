@@ -68,9 +68,6 @@ void Juego::mostrarDatos() {
 //MODIFICAR MAS ADELANTE  ------>
 void Juego::siguienteTurno() {
 
-    // 1. Producción de Soles (Girasoles)
-    // Recorremos el tablero buscando plantas (esto lo haremos luego)
-
     for (Zombie* zomb : zombies) {
         zomb ->mover();
     }
@@ -85,7 +82,7 @@ void Juego::crearZombie() {
     Zombie* nuevo = new ZombieCasco(rand() % 5);
     zombies.push_back(nuevo);
 
-    // cout << "¡Un zombie ha aparecido " << filaRandom << "!" << endl;
+    // cout << "Un zombie ha aparecido " << endl;
 }
 
 void Juego::colocarPlanta() {

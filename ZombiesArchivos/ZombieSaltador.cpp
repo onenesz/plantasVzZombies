@@ -25,3 +25,7 @@ void ZombieSaltador:: habilidadEspecial() {
 void ZombieSaltador :: atacar(Planta* _planta) {
     _planta->recibirDanio(this->danio);
 }
+
+void ZombieSaltador::recibirDanio (int danioPlanta) {
+    vida = max(0, vida - danioPlanta);
+}

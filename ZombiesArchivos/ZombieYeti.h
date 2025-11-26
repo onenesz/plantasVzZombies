@@ -11,6 +11,7 @@ public:
     int mover() override;
     void atacar(Planta* _planta) override;
     void habilidadEspecial() override;
+    void recibirDanio (int danioPlanta) override;
 };
 
 

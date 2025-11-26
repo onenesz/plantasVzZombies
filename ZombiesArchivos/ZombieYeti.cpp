@@ -11,8 +11,12 @@ int ZombieYeti::mover() {
 
 //HACER LA FUNCION
 void ZombieYeti::atacar(Planta* _planta) {
-    cout << "El Yeti lanza una bola de nieve a la planta!" << endl;
-    _planta -> recibirDanio(this -> danio);
+    cout << "El Yeti lanza una bola de nieve!" << endl;
+    _planta -> recibirDanio(danio);
 }
 
 void ZombieYeti::habilidadEspecial() {}
+
+void ZombieYeti::recibirDanio (int danioPlanta) {
+    vida = max(0, vida - danioPlanta);
+}
