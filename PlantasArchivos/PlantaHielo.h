@@ -7,7 +7,7 @@
 class PlantaHielo : public Planta {
 
 public:
-    PlantaHielo():Planta('H', 50, 0, 100, 50){}
+    PlantaHielo():Planta('H', 50, 0, 100, 50, "Planta Hielo"){}
     int activar() override;
 };
 

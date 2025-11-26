@@ -5,7 +5,7 @@
 
 class ZombieSaltador : public Zombie {
 public:
-    ZombieSaltador(int _fila) : Zombie('J',120, 10,5, _fila) {}
+    ZombieSaltador(int _fila) : Zombie('J',120, 10,5, _fila, "Zombie Saltador") {}
 
     int mover() override;
     void atacar(Planta* _planta) override;

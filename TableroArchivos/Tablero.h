@@ -22,6 +22,10 @@ public:
     void colocarPlanta(Planta* _planta, int _fila, int _columna);
     void eliminarPlanta(int _fila, int _columna);
     Planta* getPlanta(int _fila, int _columna);
+
+    //GETTERS
+    int getFila() const { return fila; }
+    int getColumna() const { return columna; }
 };
 
 #endif //TABLEROARCHIVOS_TABLERO_H

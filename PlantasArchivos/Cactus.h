@@ -7,7 +7,7 @@
 class Cactus : public Planta {
 
 public:
-    Cactus():Planta('C', 50, 0, 500, 40){}
+    Cactus():Planta('C', 50, 0, 500, 40, "Planta Cactus"){}
     int activar() override;
 };
 

@@ -2,8 +2,9 @@
 #ifndef PVZ_JUEGO_H
 #define PVZ_JUEGO_H
 
-#include <vector>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include "../TableroArchivos/Tablero.h"
 #include "../ZombiesArchivos/zombiesTotales.h"
 #include "../PlantasArchivos/plantasTotales.h"
@@ -25,8 +26,8 @@ public:
     void jugar();
     void siguienteTurno();
     void mostrarDatos();
-    void crearZombie(); //pendiente
-    void colocarPlanta(); //pendiente
+    void crearZombie();
+    void colocarPlanta();
 };
 
 

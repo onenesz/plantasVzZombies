@@ -6,6 +6,7 @@ using namespace std;
 
 class Zombie {
 protected:
+    string nombre;
     char icono;
     int vida;
     int danio;
@@ -17,8 +18,8 @@ protected:
     int fila, columna;
 
 public:
-    Zombie(char _icono, int _vida, int _danio, int _velocidad, int _fila) : icono(_icono), vida(_vida), danio(_danio), velocidad(_velocidad),
-    contarTurnos(0), fila(_fila), columna(8), alcance(0) {}
+    Zombie(char _icono, int _vida, int _danio, int _velocidad, int _fila, string _nombre) : icono(_icono), vida(_vida), danio(_danio), velocidad(_velocidad),
+    nombre(_nombre), contarTurnos(0), fila(_fila), columna(8), alcance(0) {}
 
     //DESTRUCTOR
     virtual ~Zombie() = default;
@@ -38,6 +39,7 @@ public:
     char getIcono() const { return icono; }
     int getFila() const { return fila; }
     int getColumna() const { return columna; }
+    string getNombre() const { return nombre; }
 
 };
 

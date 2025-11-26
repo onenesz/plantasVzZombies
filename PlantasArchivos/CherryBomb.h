@@ -6,7 +6,7 @@
 
 class CherryBomb : public Planta{
 public:
-    CherryBomb():Planta('B', 50, 0, 100, 0){}
+    CherryBomb():Planta('B', 50, 0, 100, 0, "Planta Cherry Bomb"){}
     int activar() override;
 };
 

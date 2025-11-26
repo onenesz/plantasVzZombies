@@ -6,7 +6,7 @@
 
 class ZombieYeti : public Zombie {
 public:
-    ZombieYeti(int _fila) : Zombie('Y', 300, 30, 3, _fila) { alcance = 4; }
+    ZombieYeti(int _fila) : Zombie('Y', 300, 30, 3, _fila, "Zombie Yeti") { alcance = 4; }
 
     int mover() override;
     void atacar(Planta* _planta) override;
