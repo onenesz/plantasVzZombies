@@ -1,8 +1,8 @@
 #ifndef PVZ_ZOMBIE_H
 #define PVZ_ZOMBIE_H
 #include <iostream>
-#include "../PlantasArchivos/Planta.h"
 using namespace std;
+class Planta;
 
 class Zombie {
 protected:
