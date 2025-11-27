@@ -81,7 +81,15 @@ void Juego::siguienteTurno() {
                     soles += resultado; // Girasol
                     cout << "Girasol genero soles" << endl;
                 } else if (resultado == -1) {
-                    // CherryBomb (Explosión)
+                    cout << "El CherryBomb ha explotado" << endl;
+                    for (Zombie* z : zombies) {
+                        //EL DANIO DEL CHERRYBOMB SE HACE EN UN 3 X 3
+                        int distanciaFila = abs(z->getFila() - i);
+                        int distanciaCol = abs(z->getColumna() - j);
+                        if (distanciaFila <= 1 && distanciaCol <= 1) {
+                            z -> recibirDanio(1000);
+                        }
+                    }
                 }
 
                 for (Zombie* z : zombies) {
