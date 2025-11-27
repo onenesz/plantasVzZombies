@@ -1,4 +1,5 @@
 #include "ZombieRapido.h"
+#include "../PlantasArchivos/Planta.h"
 
 int ZombieRapido::mover() {
     contarTurnos++; int pasosAvanzar = 0;

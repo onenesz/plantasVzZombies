@@ -1,4 +1,5 @@
 #include "ZombieSaltador.h"
+#include "../PlantasArchivos/Planta.h"
 
 int ZombieSaltador:: mover() {
     contarTurnos++;

@@ -1,4 +1,5 @@
 #include "ZombieYeti.h"
+#include "../PlantasArchivos/Planta.h"
 
 int ZombieYeti::mover() {
     this->contarTurnos++;
