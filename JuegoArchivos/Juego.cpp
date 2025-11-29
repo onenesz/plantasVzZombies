@@ -37,7 +37,7 @@ void Juego::mostrarMenu() {
                 cout << "Opcion incorrecta, digite otra vez" << endl;
                 break;
         }
-    }while(opcion != 3);
+    }while(opcion != 4);
 }
 
 void Juego::jugar() {
@@ -72,7 +72,7 @@ void Juego::jugar() {
                 cout << "Opcion incorrecta, digite otra vez" << endl;
                 break;
         }
-    }while (opcion != 3);
+    }while (opcion != 5);
 }
 
 void Juego::mostrarDatos() {
