@@ -32,6 +32,8 @@ public:
     //SETTERS
     void recibirDanio(int cantidad);
 
+    friend ostream& operator<<(ostream& os, const Planta& p);
+
 };
 
 

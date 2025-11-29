@@ -62,7 +62,36 @@ void Juego::jugar() {
 }
 
 void Juego::mostrarDatos() {
-    cout << "Soles: " << soles << ", Oleada: " << oleadas << endl;
+    cout << "\n======== ESTADO DE LAS PLANTAS Y ZOMBIES ========" << endl;
+    cout << " Soles: " << soles
+         << " Oleada: " << oleadas
+         << " Turno: " << turnoActual << endl;
+    cout << "===================================================" << endl;
+
+    if (zombies.empty()) {
+        cout << "No hay zombis" << endl;
+    } else {
+        cout << " Zombis (" << zombies.size() << "):" << endl;
+        for (Zombie* z : zombies) {
+            cout << "  - " << *z << endl;
+        }
+    }
+
+    cout << " Plantas defendiendo:" << endl;
+    bool hayPlantas = false;
+    for (int i = 0; i < tablero->getFila(); i++) {
+        for (int j = 0; j < tablero->getColumna(); j++) {
+            Planta* p = tablero->getPlanta(i, j);
+            if (p != nullptr) {
+                cout << "   -> [" << i << "," << j << "] " << *p << endl;
+                hayPlantas = true;
+            }
+        }
+    }
+    if (!hayPlantas)
+        cout << "  No hay plantas" << endl;
+
+    cout << "===================================================\n" << endl;
 }
 
 void Juego::siguienteTurno() {
@@ -87,7 +116,7 @@ void Juego::siguienteTurno() {
                         int distanciaFila = abs(z->getFila() - i);
                         int distanciaCol = abs(z->getColumna() - j);
                         if (distanciaFila <= 1 && distanciaCol <= 1) {
-                            z -> recibirDanio(1000);
+                            *z -= 1000;
                         }
                     }
                 }
@@ -116,7 +145,9 @@ void Juego::siguienteTurno() {
         } else {
             int pasos = z -> mover();
             if (pasos > 0) {
-                z->aplicarMovimiento(pasos);
+                for(int i = 0; i < pasos; i++) {
+                    --(*z);
+                }
             }
         }
 
@@ -152,6 +183,9 @@ void Juego::siguienteTurno() {
     if (rand() % 5 == 0) {
         crearZombie();
     }
+
+    //ESTADO DE LAS PLANTAS Y ZOMBIES
+    mostrarDatos();
 }
 
 void Juego::crearZombie() {

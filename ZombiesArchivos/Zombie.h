@@ -41,6 +41,19 @@ public:
     int getColumna() const { return columna; }
     string getNombre() const { return nombre; }
 
+    //SOBRECARGA DE OPERADORES
+    friend ostream& operator<<(ostream& os, const Zombie& z);
+
+    Zombie& operator-=(int cantidad) {
+        this->recibirDanio(cantidad);
+        return *this;
+    }
+
+    Zombie& operator--() {
+        this->columna--;
+        return *this;
+    }
+
 };
 
 #endif //PVZ_ZOMBIE_H
