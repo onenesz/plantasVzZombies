@@ -11,7 +11,9 @@ int ZombieCasco:: mover() {
 }
 
 void ZombieCasco:: atacar(Planta* _planta) {
-    _planta->recibirDanio(danio);
+    cout << "Exploto el zombie con casco!" << _planta->getNombre() << endl;
+    _planta->recibirDanio(1000);
+    this->vida = 0;
 }
 
 void ZombieCasco::recibirDanio (int danioPlanta) {

@@ -7,8 +7,9 @@
 class Girasol : public Planta {
 private:
     int contadorTurnos;
+    int contadorRayo;
 public:
-    Girasol():Planta('G', 50, 0, 100, 0, "Planta Girasol"){ contadorTurnos = 0; }
+    Girasol():Planta('G', 50, 0, 100, 0, "Planta Girasol"){ contadorTurnos = 0; contadorRayo = 0; }
     int activar() override;
 };
 

@@ -98,7 +98,7 @@ void Juego::siguienteTurno() {
     cout << "\n--- TURNO " << turnoActual << " ---" << endl;
     turnoActual++;
 
-    bool hayHielo = false;
+    bool hayHielo = false, congelacionGlobal = false;
     // TURNO DE LAS PLANTAS
     for (int i = 0; i < tablero->getFila(); i++) {
         for (int j = 0; j < tablero->getColumna(); j++) {
@@ -118,15 +118,22 @@ void Juego::siguienteTurno() {
                         //EL DANIO DEL CHERRYBOMB SE HACE EN UN 3 X 3
                         int distanciaFila = abs(z->getFila() - i);
                         int distanciaCol = abs(z->getColumna() - j);
-                        if (distanciaFila <= 1 && distanciaCol <= 1) {
+                        if (distanciaFila <= 1 && distanciaCol <= 1)
                             *z -= 1000;
-                        }
                     }
                 } else if (resultado == -2) {
-                    hayHielo = true;
-                    cout << "La planta de hielo ha congelado!" << endl;
+                    congelacionGlobal = true;
+                    cout << "Congelacion total activada!" << endl;
                 }
-
+                else if (resultado == -3) {
+                    cout << "Girasol ha activador rayo solar en la fila " << i << "!" << endl;
+                    for (Zombie* z : zombies) {
+                        if (z->getFila() == i) {
+                            cout << " -> " << z -> getNombre() << " recibe daño solar" << endl;
+                            *z -= 50;
+                        }
+                    }
+                }
                 for (Zombie* z : zombies) {
                     bool mismaFila = (z->getFila() == i);
                     int distancia = z->getColumna() - j; //DISTANCIA (ZOMBIE - PLANTA)
@@ -143,8 +150,26 @@ void Juego::siguienteTurno() {
     // TURNO DE LOS ZOMBIES
     for (Zombie* z : zombies) {
 
+        if (z->getVida() <= 0) continue;
+
+        if (congelacionGlobal) {
+            if (!z->esInmuneAlHielo()) {
+                cout << z->getNombre() << " por la congelacion total no se mueve!" << endl;
+                continue;
+            }
+        }
+
+        hayHielo = false;
+        for(int j = 0; j < tablero->getColumna(); j++) {
+            Planta* p = tablero->getPlanta(z->getFila(), j);
+            if (p != nullptr && p->getNombre() == "Planta Hielo") { //
+                hayHielo = true;
+                break;
+            }
+        }
+
         if (hayHielo && rand() % 2 == 0) {
-            cout << *z << " esta congelado y no se mueve" << endl;
+            cout << *z << " esta congelado y no se mueve por la Planta Hielo!" << endl;
             continue;
         }
 
@@ -184,6 +209,7 @@ void Juego::siguienteTurno() {
             exit(0);
         }
     }
+    //LIMPIEZA DE ZOMBIES Y PLANTAS
     auto posZombies = zombies.begin();
     while (posZombies != zombies.end()) {
         if ((*posZombies)->getVida() <= 0) {
@@ -205,6 +231,8 @@ void Juego::siguienteTurno() {
             }
         }
     }
+    //---------------------------------------------------------------------------------
+
     if (rand() % 5 == 0) {
         crearZombie();
     }

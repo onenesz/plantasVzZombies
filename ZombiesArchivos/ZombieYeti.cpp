@@ -10,10 +10,16 @@ int ZombieYeti::mover() {
     return 0;
 }
 
-//HACER LA FUNCION
 void ZombieYeti::atacar(Planta* _planta) {
+    contadorAtaques++;
     cout << "El Yeti lanza una bola de nieve!" << endl;
     _planta -> recibirDanio(danio);
+
+    if (contadorAtaques >= 3) {
+        cout << "El Yeti realiza un ataque doble!" << endl;
+        _planta->recibirDanio(danio);
+        contadorAtaques = 0;
+    }
 }
 
 void ZombieYeti::habilidadEspecial() {}

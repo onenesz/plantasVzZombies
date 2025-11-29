@@ -5,8 +5,10 @@
 #include "Zombie.h"
 
 class ZombieYeti : public Zombie {
+private:
+    int contadorAtaques;
 public:
-    ZombieYeti(int _fila) : Zombie('Y', 300, 30, 3, _fila, "Zombie Yeti") { alcance = 4; }
+    ZombieYeti(int _fila) : Zombie('Y', 300, 30, 3, _fila, "Zombie Yeti") { alcance = 4; contadorAtaques = 0; }
 
     int mover() override;
     void atacar(Planta* _planta) override;
