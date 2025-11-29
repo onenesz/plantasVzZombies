@@ -98,6 +98,7 @@ void Juego::siguienteTurno() {
     cout << "\n--- TURNO " << turnoActual << " ---" << endl;
     turnoActual++;
 
+    bool hayHielo = false;
     // TURNO DE LAS PLANTAS
     for (int i = 0; i < tablero->getFila(); i++) {
         for (int j = 0; j < tablero->getColumna(); j++) {
@@ -106,9 +107,11 @@ void Juego::siguienteTurno() {
 
             if (_planta != nullptr) {
                 int resultado = _planta->activar();
+
                 if (resultado > 0) {
                     soles += resultado; // Girasol
                     cout << "Girasol genero soles" << endl;
+
                 } else if (resultado == -1) {
                     cout << "El CherryBomb ha explotado" << endl;
                     for (Zombie* z : zombies) {
@@ -119,6 +122,9 @@ void Juego::siguienteTurno() {
                             *z -= 1000;
                         }
                     }
+                } else if (resultado == -2) {
+                    hayHielo = true;
+                    cout << "La planta de hielo ha congelado!" << endl;
                 }
 
                 for (Zombie* z : zombies) {
@@ -137,11 +143,29 @@ void Juego::siguienteTurno() {
     // TURNO DE LOS ZOMBIES
     for (Zombie* z : zombies) {
 
+        if (hayHielo && rand() % 2 == 0) {
+            cout << *z << " esta congelado y no se mueve" << endl;
+            continue;
+        }
+
         Planta* plantaEnPosicion = tablero->getPlanta(z->getFila(), z->getColumna());
 
         if (plantaEnPosicion != nullptr) {
-            cout << "Zombie atacando planta en (" << z->getFila() << "," << z->getColumna() << ")" << endl;
-            z->atacar(plantaEnPosicion);
+
+            ZombieSaltador* saltador = dynamic_cast<ZombieSaltador*>(z); //Verificamos si z es un zombie saltador
+            if (saltador != nullptr && saltador->getTienePertiga()) {
+                cout << z->getNombre() << " ha saltado con su pertiga" << endl;
+                saltador->setTienePertiga(false);
+                z->aplicarMovimiento(2);
+            } else {
+                cout << "Zombie atacando planta en (" << z->getFila() << "," << z->getColumna() << ")" << endl;
+                z->atacar(plantaEnPosicion);
+
+                if (plantaEnPosicion->getNombre() == "Planta Cactus") {
+                    cout << "El zombi se pincho con el Cactus" << endl;
+                    *z -= plantaEnPosicion -> getDanio();
+                }
+            }
         } else {
             int pasos = z -> mover();
             if (pasos > 0) {
@@ -151,6 +175,7 @@ void Juego::siguienteTurno() {
             }
         }
 
+        //----------------------------------------------------------------------------------------------------
         if (z->getColumna() < 0) {
             cout << "\n=========================================" << endl;
             cout << "      ¡LOS ZOMBIS ENTRARON A LA CASA!      " << endl;

@@ -32,6 +32,7 @@ public:
 
     //HABILIDAD
     virtual void habilidadEspecial () = 0;
+    virtual bool esInmuneAlHielo() { return false; }
 
     //GETTERS
     int getVida() const { return vida; }

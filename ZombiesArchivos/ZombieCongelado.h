@@ -11,6 +11,7 @@ public:
     void atacar(Planta *_planta) override;
     void recibirDanio (int danioPlanta) override;
     void habilidadEspecial() override; //QUEDA PENDIENTE HASTA HACER LA PLANTA DE HIELO
+    bool esInmuneAlHielo() override { return true; }
 };
 
 #endif //PVZ_ZOMBIECONGELADO_H
