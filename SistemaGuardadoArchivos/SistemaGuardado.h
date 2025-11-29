@@ -1,6 +1,7 @@
 #ifndef PVZ_SISTEMAGUARDADO_H
 #define PVZ_SISTEMAGUARDADO_H
 #include <string>
+#include <ctime>
 using namespace std;
 
 struct Fecha {

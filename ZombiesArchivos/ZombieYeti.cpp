@@ -1,6 +1,6 @@
 #include "ZombieYeti.h"
 #include "../PlantasArchivos/Planta.h"
-6
+
 int ZombieYeti::mover() {
     this->contarTurnos++;
     if (this->contarTurnos >= velocidad) {

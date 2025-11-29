@@ -21,4 +21,6 @@ add_executable(pvz
         ZombiesArchivos/ZombieRapido.cpp
         ZombiesArchivos/ZombieSaltador.cpp
         ZombiesArchivos/ZombieYeti.cpp
+
+        SistemaGuardadoArchivos/SistemaGuardado.cpp
 )

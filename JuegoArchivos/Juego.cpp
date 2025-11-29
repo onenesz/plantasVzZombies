@@ -28,8 +28,10 @@ void Juego::mostrarMenu() {
                 break;
             case 3:
                 cout << "***** Saliste, gracias por jugar! *****" << endl;
+                break;
             default:
                 cout << "Opcion incorrecta, digite otra vez" << endl;
+                break;
         }
     }while(opcion != 3);
 }
