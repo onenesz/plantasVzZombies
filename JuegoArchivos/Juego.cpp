@@ -209,6 +209,14 @@ void Juego::siguienteTurno() {
         crearZombie();
     }
 
+    //CONDICION DE VICTORIA
+    if (turnoActual >= TURNOS_MAXIMOS && zombies.empty()) {
+        cout << "\n=======================================" << endl;
+        cout << "                ¡VICTORIA!               " << endl;
+        cout << "=========================================" << endl;
+        exit(0);
+    }
+
     //ESTADO DE LAS PLANTAS Y ZOMBIES
     mostrarDatos();
 }
