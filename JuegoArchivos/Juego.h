@@ -18,7 +18,7 @@ private:
     int oleadas;
     int puntos;
     int turnoActual;
-    const int TURNOS_MAXIMOS = 100;
+    const int TURNOS_MAXIMOS = 70;
     SistemaGuardado* sistema_;
 
     //NUEVOS ATRIBUTOS PARA EL GUARDADO

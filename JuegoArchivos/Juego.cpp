@@ -17,7 +17,8 @@ void Juego::mostrarMenu() {
         cout << "------------------------------------\n";
         cout << "1. Jugar" << endl;
         cout << "2. Ver Datos" << endl;
-        cout << "3. Salir" << endl;
+        cout << "3. Cargar juego" << endl;
+        cout << "4. Salir" << endl;
         cout << "-------> Elige una opcion <-------" << endl; cin >> opcion;
         switch(opcion) {
             case 1:
@@ -27,6 +28,9 @@ void Juego::mostrarMenu() {
                 mostrarDatos();
                 break;
             case 3:
+                cargarJuego();
+                break;
+            case 4:
                 cout << "***** Saliste, gracias por jugar! *****" << endl;
                 break;
             default:
@@ -43,7 +47,9 @@ void Juego::jugar() {
         cout << "\n--- TURNO ---" << endl;
         cout << "1. Siguiente Turno (No hacer nada)" << endl;
         cout << "2. Plantar" << endl;
-        cout << "3. Volver al Menu" << endl;
+        cout << "3. Remover Planta" << endl;
+        cout << "4. Guardar Partida" << endl;
+        cout << "5. Volver al Menu" << endl;
         cin >> opcion;
 
         switch (opcion) {
@@ -54,9 +60,15 @@ void Juego::jugar() {
                 colocarPlanta();
                 break;
             case 3:
-                cout << "***** Volviste al menu! *****" << endl;
+                removerPlanta();
                 break;
             case 4:
+                guardarJuego();
+                break;
+            case 5:
+                cout << "***** Volviste al menu! *****" << endl;
+                break;
+            default:
                 cout << "Opcion incorrecta, digite otra vez" << endl;
                 break;
         }
@@ -73,7 +85,7 @@ void Juego::mostrarDatos() {
     if (zombies.empty()) {
         cout << "No hay zombis" << endl;
     } else {
-        cout << " Zombis (" << zombies.size() << "):" << endl;
+        cout << " Zombis atacando (" << zombies.size() << "):" << endl;
         for (Zombie* z : zombies) {
             cout << "  - " << *z << endl;
         }
@@ -85,7 +97,7 @@ void Juego::mostrarDatos() {
         for (int j = 0; j < tablero->getColumna(); j++) {
             Planta* p = tablero->getPlanta(i, j);
             if (p != nullptr) {
-                cout << "   -> [" << i << "," << j << "] " << *p << endl;
+                cout << "   -> [" << i + 1 << "," << j + 1 << "] " << *p << endl;
                 hayPlantas = true;
             }
         }
@@ -128,7 +140,7 @@ void Juego::siguienteTurno() {
                     cout << "Congelacion total activada!" << endl;
                 }
                 else if (resultado == -3) {
-                    cout << "Girasol ha activador rayo solar en la fila " << i << "!" << endl;
+                    cout << "Girasol ha activador rayo solar en la fila " << i + 1 << "!" << endl;
                     for (Zombie* z : zombies) {
                         if (z->getFila() == i) {
                             cout << " -> " << z -> getNombre() << " recibe daño solar" << endl;
@@ -205,9 +217,9 @@ void Juego::siguienteTurno() {
         //----------------------------------------------------------------------------------------------------
         if (z->getColumna() < 0) {
             cout << "\n=========================================" << endl;
-            cout << "      ¡LOS ZOMBIS ENTRARON A LA CASA!      " << endl;
-            cout << "                 GAME OVER                 " << endl;
-            cout << "===========================================" << endl;
+            cout << "      LOS ZOMBIS ENTRARON A LA CASA!      " << endl;
+            cout << "                GAME OVER                 " << endl;
+            cout << "==========================================" << endl;
             exit(0);
         }
     }
@@ -235,15 +247,15 @@ void Juego::siguienteTurno() {
     }
     //---------------------------------------------------------------------------------
 
-    if (rand() % 5 == 0) {
+    if (rand() % 3 == 0) {
         crearZombie();
     }
 
     //CONDICION DE VICTORIA
     if (turnoActual >= TURNOS_MAXIMOS && zombies.empty()) {
         cout << "\n=======================================" << endl;
-        cout << "                ¡VICTORIA!               " << endl;
-        cout << "=========================================" << endl;
+        cout << "                VICTORIA!               " << endl;
+        cout << "========================================" << endl;
         exit(0);
     }
 
@@ -275,14 +287,14 @@ void Juego::crearZombie() {
 }
 
 void Juego::colocarPlanta() {
-    //MODIFICAR LA CANTIDAD DE SOLES NECESARIOS PARA CADA PLANTA
+
     int opcion;
     cout << "\n----- COLOCAR PLANTAS (Soles: " << soles << ") -----" << endl;
-    cout << "1. Girasol (x soles)" << endl;
-    cout << "2. Seta Defensiva (x soles)" << endl;
-    cout << "3. Cactus (x soles)" << endl;
-    cout << "4. Planta Hielo (x soles)" << endl;
-    cout << "5. CherryBomb (x soles)" << endl;
+    cout << "1. Girasol (50 soles)" << endl;
+    cout << "2. Seta Defensiva (50 soles)" << endl;
+    cout << "3. Cactus (100 soles)" << endl;
+    cout << "4. Planta Hielo (175 soles)" << endl;
+    cout << "5. CherryBomb (150 soles)" << endl;
     cout << "0. Cancelar" << endl;
 
     cout << "Elige una planta:";
@@ -306,7 +318,7 @@ void Juego::colocarPlanta() {
             costo = 100;
             break;
         case 4: plantaEleccion = new PlantaHielo();
-            costo = 150;
+            costo = 175;
             break;
         case 5: plantaEleccion = new CherryBomb();
             costo = 150;

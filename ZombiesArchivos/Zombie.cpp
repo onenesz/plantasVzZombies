@@ -2,7 +2,7 @@
 #include "../PlantasArchivos/Planta.h"
 
 ostream& operator<<(ostream& os, const Zombie& zombie) {
-    os << zombie.getNombre() << " (" << zombie.getVida() << " VIDA) en [" << zombie.getFila() << ", " << zombie.getColumna() << "]";
+    os << zombie.getNombre() << " (" << zombie.getVida() << " VIDA) en [" << zombie.getFila() + 1  << ", " << zombie.getColumna() + 1 << "]";
     return os;
 }
 

@@ -9,7 +9,7 @@ int ZombieRapido::mover() {
 
         pasosAvanzar = 1;
         if (turnosRapido % 3 == 0) {
-            cout << "¡El Zombie Rápido ya te alcanzara!" << endl;
+            cout << "El Zombie Rapido ya te alcanzara!" << endl;
             velocidadAcumulable++;
             pasosAvanzar += velocidadAcumulable;
         }
