@@ -1,14 +1,12 @@
-
 #ifndef PVZ_JUEGO_H
 #define PVZ_JUEGO_H
-
-#include <iostream>
 #include <vector>
-#include <algorithm>
+
 #include "../TableroArchivos/Tablero.h"
 #include "../ZombiesArchivos/zombiesTotales.h"
 #include "../PlantasArchivos/plantasTotales.h"
-#include "../SistemaGuardadoArchivos/SistemaGuardado.h"
+
+using namespace std;
 
 class Juego {
 private:
@@ -27,6 +25,7 @@ private:
     string nombreUsuario;
 
 public:
+    //SU INICIALIZACIÓN
     Juego():tablero(new Tablero), soles(50), oleadas(1), puntos(0), turnoActual(1),
     sistema_(new SistemaGuardado()), zombiesEliminados(0), danioRecibido(0) {}
 
@@ -39,12 +38,14 @@ public:
     void guardarDatos ();
     void guardarJuego();
     void cargarJuego();
+    void actualizarDatos();
 
-    void mostrarDatos();
+    void mostrarDatos() const;
 
     void crearZombie();
     void colocarPlanta();
-    void removerPlanta();
+    void removerPlanta ();
+
 };
 
 

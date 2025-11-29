@@ -1,7 +1,9 @@
 #include "Juego.h"
+#include <cstdlib>
 
 Juego::~Juego() {
     delete tablero;
+    delete sistema_;
     for (Zombie* z : zombies) {
         delete z;
     }
@@ -12,12 +14,15 @@ void Juego::mostrarMenu() {
     int opcion = 0 ;
 
     do {
+//AGREGACION DE CARGAR DATOS
         cout << "------------------------------------\n";
+        cout << "------------BIENVENIDO A------------\n";
         cout << "-------- PLANTAS VS ZOMBIES --------\n";
         cout << "------------------------------------\n";
-        cout << "1. Jugar" << endl;
+        cout << "1. Nueva Partida" << endl;
         cout << "2. Ver Datos" << endl;
-        cout << "3. Salir" << endl;
+        cout << "3. Cargar Partida" << endl;
+        cout << "4. Salir" << endl;
         cout << "-------> Elige una opcion <-------" << endl; cin >> opcion;
         switch(opcion) {
             case 1:
@@ -27,21 +32,35 @@ void Juego::mostrarMenu() {
                 mostrarDatos();
                 break;
             case 3:
+                cargarJuego();
+            case 4:
                 cout << "***** Saliste, gracias por jugar! *****" << endl;
+                break;
             default:
                 cout << "Opcion incorrecta, digite otra vez" << endl;
+                break;
         }
-    }while(opcion != 3);
+    }while(opcion != 4);
 }
 
 void Juego::jugar() {
+//AGREGACION DE REGISTRARSE
+    cout << endl;
+    cout << "------------REGISTRESE------------\n";
+    cout << "Nombre de usuario: \n"; cin >> nombreUsuario;
+    cout << endl;
+
+
     int opcion;
     do {
+        //NUEVA OPCION DE REMOVER Y GUARDAR PARTIDA
         tablero -> mostrarTablero(zombies);
         cout << "\n--- TURNO ---" << endl;
         cout << "1. Siguiente Turno (No hacer nada)" << endl;
         cout << "2. Plantar" << endl;
-        cout << "3. Volver al Menu" << endl;
+        cout << "3. Remover planta" << endl;
+        cout << "4. Guardar Partida" << endl;
+        cout << "5. Volver al Menu" << endl;
         cin >> opcion;
 
         switch (opcion) {
@@ -52,53 +71,28 @@ void Juego::jugar() {
                 colocarPlanta();
                 break;
             case 3:
+                removerPlanta();
+            case 4:
+                guardarJuego();
+                break;
+            case 5:
                 cout << "***** Volviste al menu! *****" << endl;
                 break;
-            case 4:
+            default:
                 cout << "Opcion incorrecta, digite otra vez" << endl;
                 break;
         }
-    }while (opcion != 3);
+    }while (opcion != 5);
 }
 
-void Juego::mostrarDatos() {
-    cout << "\n======== ESTADO DE LAS PLANTAS Y ZOMBIES ========" << endl;
-    cout << " Soles: " << soles
-         << " Oleada: " << oleadas
-         << " Turno: " << turnoActual << endl;
-    cout << "===================================================" << endl;
-
-    if (zombies.empty()) {
-        cout << "No hay zombis" << endl;
-    } else {
-        cout << " Zombis (" << zombies.size() << "):" << endl;
-        for (Zombie* z : zombies) {
-            cout << "  - " << *z << endl;
-        }
-    }
-
-    cout << " Plantas defendiendo:" << endl;
-    bool hayPlantas = false;
-    for (int i = 0; i < tablero->getFila(); i++) {
-        for (int j = 0; j < tablero->getColumna(); j++) {
-            Planta* p = tablero->getPlanta(i, j);
-            if (p != nullptr) {
-                cout << "   -> [" << i << "," << j << "] " << *p << endl;
-                hayPlantas = true;
-            }
-        }
-    }
-    if (!hayPlantas)
-        cout << "  No hay plantas" << endl;
-
-    cout << "===================================================\n" << endl;
+void Juego::mostrarDatos() const {
+    cout << "Soles: " << soles << ", Oleada: " << oleadas << endl;
 }
 
 void Juego::siguienteTurno() {
     cout << "\n--- TURNO " << turnoActual << " ---" << endl;
     turnoActual++;
 
-    bool hayHielo = false, congelacionGlobal = false;
     // TURNO DE LAS PLANTAS
     for (int i = 0; i < tablero->getFila(); i++) {
         for (int j = 0; j < tablero->getColumna(); j++) {
@@ -107,37 +101,25 @@ void Juego::siguienteTurno() {
 
             if (_planta != nullptr) {
                 int resultado = _planta->activar();
-
                 if (resultado > 0) {
                     soles += resultado; // Girasol
                     cout << "Girasol genero soles" << endl;
-
                 } else if (resultado == -1) {
                     cout << "El CherryBomb ha explotado" << endl;
                     for (Zombie* z : zombies) {
                         //EL DANIO DEL CHERRYBOMB SE HACE EN UN 3 X 3
                         int distanciaFila = abs(z->getFila() - i);
                         int distanciaCol = abs(z->getColumna() - j);
-                        if (distanciaFila <= 1 && distanciaCol <= 1)
-                            *z -= 1000;
-                    }
-                } else if (resultado == -2) {
-                    congelacionGlobal = true;
-                    cout << "Congelacion total activada!" << endl;
-                }
-                else if (resultado == -3) {
-                    cout << "Girasol ha activador rayo solar en la fila " << i << "!" << endl;
-                    for (Zombie* z : zombies) {
-                        if (z->getFila() == i) {
-                            cout << " -> " << z -> getNombre() << " recibe daño solar" << endl;
-                            *z -= 50;
+                        if (distanciaFila <= 1 && distanciaCol <= 1) {
+                            z -> recibirDanio(1000);
                         }
                     }
                 }
+
                 for (Zombie* z : zombies) {
                     bool mismaFila = (z->getFila() == i);
                     int distancia = z->getColumna() - j; //DISTANCIA (ZOMBIE - PLANTA)
-                    bool dentroRango = (distancia >= 0 && distancia <= _planta->getAlcance());
+                    bool dentroRango = distancia >= 0 && distancia <= _planta->getAlcance();
 
                     if (mismaFila && dentroRango) {
                         _planta->atacar(z);
@@ -150,58 +132,21 @@ void Juego::siguienteTurno() {
     // TURNO DE LOS ZOMBIES
     for (Zombie* z : zombies) {
 
-        if (z->getVida() <= 0) continue;
-
-        if (congelacionGlobal) {
-            if (!z->esInmuneAlHielo()) {
-                cout << z->getNombre() << " por la congelacion total no se mueve!" << endl;
-                continue;
-            }
-        }
-
-        hayHielo = false;
-        for(int j = 0; j < tablero->getColumna(); j++) {
-            Planta* p = tablero->getPlanta(z->getFila(), j);
-            if (p != nullptr && p->getNombre() == "Planta Hielo") { //
-                hayHielo = true;
-                break;
-            }
-        }
-
-        if (hayHielo && rand() % 2 == 0) {
-            cout << *z << " esta congelado y no se mueve por la Planta Hielo!" << endl;
-            continue;
-        }
-
         Planta* plantaEnPosicion = tablero->getPlanta(z->getFila(), z->getColumna());
 
         if (plantaEnPosicion != nullptr) {
+            cout << "Zombie atacando planta en (" << z->getFila() << "," << z->getColumna() << ")" << endl;
+            z->atacar(plantaEnPosicion);
+            this->danioRecibido+=z->getDanio();
 
-            ZombieSaltador* saltador = dynamic_cast<ZombieSaltador*>(z); //Verificamos si z es un zombie saltador
-            if (saltador != nullptr && saltador->getTienePertiga()) {
-                cout << z->getNombre() << " ha saltado con su pertiga" << endl;
-                saltador->setTienePertiga(false);
-                z->aplicarMovimiento(2);
-            } else {
-                cout << "Zombie atacando planta en (" << z->getFila() << "," << z->getColumna() << ")" << endl;
-                z->atacar(plantaEnPosicion);
-
-                if (plantaEnPosicion->getNombre() == "Planta Cactus") {
-                    cout << "El zombi se pincho con el Cactus" << endl;
-                    *z -= plantaEnPosicion -> getDanio();
-                }
-            }
         } else {
             int pasos = z -> mover();
             if (pasos > 0) {
-                for(int i = 0; i < pasos; i++) {
-                    --(*z);
-                }
+                z->aplicarMovimiento(pasos);
             }
         }
 
-        //----------------------------------------------------------------------------------------------------
-        if (z->getColumna() < 0) {
+        if (z->getColumna() == 0) {
             cout << "\n=========================================" << endl;
             cout << "      ¡LOS ZOMBIS ENTRARON A LA CASA!      " << endl;
             cout << "                 GAME OVER                 " << endl;
@@ -209,10 +154,12 @@ void Juego::siguienteTurno() {
             exit(0);
         }
     }
-    //LIMPIEZA DE ZOMBIES Y PLANTAS
+
+    //LIMPIEZA
     auto posZombies = zombies.begin();
     while (posZombies != zombies.end()) {
         if ((*posZombies)->getVida() <= 0) {
+            this->zombiesEliminados++;
             cout << "¡Un zombie ha muerto!" << endl;
             delete *posZombies;
             posZombies = zombies.erase(posZombies);
@@ -225,28 +172,15 @@ void Juego::siguienteTurno() {
         for (int j = 0; j < tablero->getColumna(); j++) {
             Planta* _planta = tablero->getPlanta(i, j);
             if (_planta != nullptr && _planta->getVida() <= 0) {
-                cout << "Una planta ha muerto en (" << i << "," << j << ")" << endl;
+                cout << "Una planta ha muerto en (" << i+1 << "," << j+1 << ")" << endl;
                 delete _planta;
                 tablero->eliminarPlanta(i, j);
             }
         }
     }
-    //---------------------------------------------------------------------------------
-
     if (rand() % 5 == 0) {
         crearZombie();
     }
-
-    //CONDICION DE VICTORIA
-    if (turnoActual >= TURNOS_MAXIMOS && zombies.empty()) {
-        cout << "\n=======================================" << endl;
-        cout << "                ¡VICTORIA!               " << endl;
-        cout << "=========================================" << endl;
-        exit(0);
-    }
-
-    //ESTADO DE LAS PLANTAS Y ZOMBIES
-    mostrarDatos();
 }
 
 void Juego::crearZombie() {
@@ -276,14 +210,14 @@ void Juego::colocarPlanta() {
     //MODIFICAR LA CANTIDAD DE SOLES NECESARIOS PARA CADA PLANTA
     int opcion;
     cout << "\n----- COLOCAR PLANTAS (Soles: " << soles << ") -----" << endl;
-    cout << "1. Girasol (x soles)" << endl;
-    cout << "2. Seta Defensiva (x soles)" << endl;
-    cout << "3. Cactus (x soles)" << endl;
-    cout << "4. Planta Hielo (x soles)" << endl;
-    cout << "5. CherryBomb (x soles)" << endl;
+    cout << "1. Girasol (50 soles)" << endl;
+    cout << "2. Seta Defensiva (50 soles)" << endl;
+    cout << "3. Cactus (100 soles)" << endl;
+    cout << "4. Planta Hielo (150 soles)" << endl;
+    cout << "5. CherryBomb (150 soles)" << endl;
     cout << "0. Cancelar" << endl;
 
-    cout << "Elige una planta:";
+    cout << "Elige una opcion:";
     cin >> opcion;
 
     if (opcion == 0)
@@ -321,8 +255,9 @@ void Juego::colocarPlanta() {
     }
 
     int fila, columna;
-    cout << "Ingresa Fila (0-4) y Columna (0-8):";
+    cout << "Ingresa Fila (1-5) y Columna (1-9):";
     cin >> fila >> columna;
+    fila-=1; columna-=1;
 
     if (tablero->estaVacia(fila, columna)) {
         tablero->colocarPlanta(plantaEleccion, fila, columna);
@@ -332,8 +267,12 @@ void Juego::colocarPlanta() {
         cout << "Esta casilla ya esta ocupada o fuera de rango!" << endl;
         delete plantaEleccion;
     }
+
+
 }
 
+
+//NUEVAS IMPLEMENTACIONES
 void Juego::guardarDatos() {
 
     puntos = (oleadas * 100) + (zombiesEliminados * 10) - (danioRecibido/2);
