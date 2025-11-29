@@ -1,5 +1,5 @@
-#ifndef PVZGAME_SISTEMAGUARDADO_H
-#define PVZGAME_SISTEMAGUARDADO_H
+#ifndef PVZ_SISTEMAGUARDADO_H
+#define PVZ_SISTEMAGUARDADO_H
 #include <string>
 using namespace std;
 
@@ -42,4 +42,4 @@ public:
 };
 
 
-#endif PVZGAMES_SISTEMAGUARDADO_H
+#endif //PVZ_SISTEMAGUARDADO_H
