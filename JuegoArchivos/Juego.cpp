@@ -210,6 +210,13 @@ void Juego::siguienteTurno() {
             if (pasos > 0) {
                 for(int i = 0; i < pasos; i++) {
                     --(*z);
+                    Planta* plantaChoque = tablero->getPlanta(z->getFila(), z->getColumna());
+                    if (plantaChoque != nullptr) {
+                        break; //EL ZOMBIE PARA PORQUE HAY UNA PLANTA EN SU CAMINO
+                    }
+                    if (z->getColumna() < 0) {
+                        break;
+                    }
                 }
             }
         }
