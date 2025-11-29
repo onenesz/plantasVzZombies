@@ -8,7 +8,7 @@ class ZombieCasco : public Zombie {
 private:
     int turnosAtaques;
 public:
-    ZombieCasco(int _fila):Zombie('*', 200, 30, 1, _fila, "Zombie con Casco"), turnosAtaques(0) {}
+    ZombieCasco(int _fila):Zombie('*', 350, 1000, 3, _fila, "Zombie con Casco"), turnosAtaques(0) {}
 
     //METODOS
     int mover () override;

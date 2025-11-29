@@ -33,12 +33,12 @@ void Tablero::mostrarTablero(const vector<Zombie*>& zombis) {
 
     cout << "   ";
     for (int j = 0; j < columna; ++j) {
-        cout << j << " ";
+        cout << j + 1 << " ";
     }
     cout << endl;
 
     for (int i = 0; i < fila; ++i) {
-        cout << i << " |";
+        cout << i + 1 << " |";
         for (int j = 0; j < columna; ++j) {
 
             char dibujo = '.';

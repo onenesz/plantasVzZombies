@@ -10,7 +10,7 @@ public:
     int mover () override;
     void atacar(Planta *_planta) override;
     void recibirDanio (int danioPlanta) override;
-    void habilidadEspecial() override; //QUEDA PENDIENTE HASTA HACER LA PLANTA DE HIELO
+    void habilidadEspecial() override;
     bool esInmuneAlHielo() override { return true; }
 };
 

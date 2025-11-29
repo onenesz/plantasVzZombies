@@ -321,8 +321,11 @@ void Juego::colocarPlanta() {
     }
 
     int fila, columna;
-    cout << "Ingresa Fila (0-4) y Columna (0-8):";
+    cout << "Ingresa Fila (1-5) y Columna (1-9):";
     cin >> fila >> columna;
+
+    fila--;
+    columna--;
 
     if (tablero->estaVacia(fila, columna)) {
         tablero->colocarPlanta(plantaEleccion, fila, columna);
@@ -331,6 +334,52 @@ void Juego::colocarPlanta() {
     } else {
         cout << "Esta casilla ya esta ocupada o fuera de rango!" << endl;
         delete plantaEleccion;
+    }
+}
+
+void Juego::removerPlanta() {
+    int filaIngresada, columnaIngresada;
+    int filaReal, columnaReal;
+
+    tablero->mostrarTablero(zombies);
+
+    cout << "\n----- REMOVER PLANTA -----" << endl;
+    cout << "Ingresa la fila (1-5) y columna (1-9) de la planta:";
+    cout << "Fila: ";
+
+    //EVITAR INGRESO DE DATOS NO NUMERICOS
+    if (!(cin >> filaIngresada)) {
+        cout << "Entrada invalida. Intentelo nuevamente." << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
+
+    cout << "Columna: ";
+    if (!(cin>>columnaIngresada)) {
+        cout << "Entrada invalida. Intentelo nuevamente." << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
+
+    filaReal=filaIngresada - 1;
+    columnaReal=columnaIngresada - 1;
+
+    if (filaReal < 0 || filaReal >= tablero->getFila()
+        || columnaReal < 0 || columnaReal >= tablero->getColumna()) {
+        cout << "Las coordenadas ingresadas estan fuera del rango." << endl;
+        return;
+        }
+
+    Planta* plantaRemover = tablero->getPlanta(filaReal, columnaReal);
+
+    if (plantaRemover == nullptr) {
+        cout << "No se ha encontrado ninguna planta";
+    } else {
+        delete plantaRemover;
+        tablero->eliminarPlanta(filaReal, columnaReal);
+        cout << "Planta removida correctamente" << endl;
     }
 }
 
@@ -383,50 +432,5 @@ void Juego::cargarJuego() {
         jugar();
     } else {
         cout << "No se pudo cargar la partida de nombre: " << nombreArchivo << endl;
-    }
-}
-
-void Juego::removerPlanta() {
-    int filaIngresada, columnaIngresada;
-    int filaReal, columnaReal;
-
-    tablero->mostrarTablero(zombies);
-
-    cout << "\n----- REMOVER PLANTA -----" << endl;
-    cout << "Ingresa la fila (1-5) y columna (1-9) de la planta:";
-    cout << "Fila: ";
-
-    //EVITAR INGRESO DE DATOS NO NUMERICOS
-    if (!(cin >> filaIngresada)) {
-        cout << "Entrada invalida. Intentelo nuevamente." << endl;
-        cin.clear();
-        cin.ignore(10000, '\n');
-        return;
-    }
-
-    cout << "Columna: ";
-    if (!(cin>>columnaIngresada)) {
-        cout << "Entrada invalida. Intentelo nuevamente." << endl;
-        cin.clear();
-        cin.ignore(10000, '\n');
-        return;
-    }
-
-    filaReal=filaIngresada-1;
-    columnaReal=columnaIngresada-1;
-
-    if (filaReal < 0 || filaReal >= tablero->getFila()
-        || columnaReal < 0 || columnaReal >= tablero->getColumna()) {
-        cout << "Las coordenadas ingresadas estan fuera del rango." << endl;
-        return;
-    }
-
-    Planta* plantaRemover = tablero->getPlanta(filaReal, columnaReal);
-
-    if (plantaRemover == nullptr) {
-        cout << "No se ha encontrado ninguna planta";
-    } else {
-        tablero->eliminarPlanta(filaReal, columnaReal);
-        cout << "Planta removida correctamente" << endl;
     }
 }
