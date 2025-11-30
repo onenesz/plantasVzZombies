@@ -6,7 +6,7 @@
 using namespace std;
 
 SistemaGuardado::SistemaGuardado () :
-        nombreJugador (""),
+        nombreJugador(""),
         fecha(""),
         oleadasCompletadas(),
         zombisEliminados(),
@@ -23,7 +23,7 @@ void SistemaGuardado::setDatos(string _nJugador, int _oleadas, int _zombies, int
         danioRecibido = _danio;
         puntosFinales = _puntos;
         Fecha f;
-        this->fecha=f.fecha;
+        this -> fecha=f.fecha;
 }
 
 void SistemaGuardado::guardarpartida(string nombreArchivo) const {
@@ -34,13 +34,13 @@ void SistemaGuardado::guardarpartida(string nombreArchivo) const {
                 return;
         }
 
-        archivo << fecha << endl;
-        archivo << nombreJugador << endl;
-        archivo << oleadasCompletadas << endl;
-        archivo << zombisEliminados << endl;
-        archivo << solesRecolectados << endl;
-        archivo << danioRecibido << endl;
-        archivo << puntosFinales << endl;
+        archivo << "Fecha: " << fecha;
+        archivo << "Nombre: " << nombreJugador << endl;
+        archivo << "Oleadas: " << oleadasCompletadas << endl;
+        archivo << "Zombies: " << zombisEliminados << endl;
+        archivo << "Soles: " << solesRecolectados << endl;
+        archivo << "Danio: " << danioRecibido << endl;
+        archivo << "Puntos: " << puntosFinales << endl;
 
         archivo.close();
         cout << "Partida guardada :D" << endl;
@@ -55,13 +55,19 @@ bool SistemaGuardado::cargarpartida(string nombreArchivo) {
                 return false;
         }
 
-        getline(archivo, fecha);
+        archivo.ignore(100, ':');
+        archivo.get();            // Salta el espacio en blanco
+        getline(archivo, fecha);  // Lee la fecha
+
+        archivo.ignore(100, ':');
+        archivo.get();
         getline(archivo, nombreJugador);
-        archivo >> oleadasCompletadas;
-        archivo >> zombisEliminados;
-        archivo >> solesRecolectados;
-        archivo >> danioRecibido;
-        archivo >> puntosFinales;
+
+        archivo.ignore(100, ':'); archivo >> oleadasCompletadas;
+        archivo.ignore(100, ':'); archivo >> zombisEliminados;
+        archivo.ignore(100, ':'); archivo >> solesRecolectados;
+        archivo.ignore(100, ':'); archivo >> danioRecibido;
+        archivo.ignore(100, ':'); archivo >> puntosFinales;
 
         archivo.close();
         return true;

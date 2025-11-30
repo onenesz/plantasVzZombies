@@ -30,7 +30,7 @@ private:
     string nombreUsuario;
 
 public:
-    Juego():tablero(new Tablero), soles(50), oleadas(1), puntos(0), turnoActual(1),
+    Juego():tablero(new Tablero), soles(50), oleadas(0), puntos(0), turnoActual(1),
     sistema_(new SistemaGuardado()), zombiesEliminados(0), danioRecibido(0), contadorSolesCaidos(0),
     zombisGenerados(0), zombisPorOleada(0), tiempoDescanso(5) {}
 

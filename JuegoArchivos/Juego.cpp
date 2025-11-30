@@ -50,10 +50,16 @@ void Juego::mostrarMenu() {
 }
 
 void Juego::jugar() {
+    if (nombreUsuario.empty()) {
+        cout << "\n------------ REGISTRO ------------\n";
+        cout << "Ingrese su nombre de usuario: ";
+        cin >> nombreUsuario;
+        cout << endl;
+    }
     int opcion;
     do {
         tablero -> mostrarTablero(zombies);
-        cout << "\n--- TURNO ---" << endl;
+        cout << "\n--- JUEGO ---" << endl;
         cout << "1. Siguiente Turno (No hacer nada)" << endl;
         cout << "2. Plantar" << endl;
         cout << "3. Remover Planta" << endl;
@@ -214,6 +220,7 @@ void Juego::siguienteTurno() {
             } else {
                 cout << "Zombie atacando planta en (" << z->getFila() << "," << z->getColumna() << ")" << endl;
                 z->atacar(plantaEnPosicion);
+                this -> danioRecibido += z->getDanio();
 
                 if (plantaEnPosicion->getNombre() == "Planta Cactus") {
                     cout << "El zombi se pincho con el Cactus" << endl;
@@ -249,6 +256,7 @@ void Juego::siguienteTurno() {
     auto posZombies = zombies.begin();
     while (posZombies != zombies.end()) {
         if ((*posZombies)->getVida() <= 0) {
+            zombiesEliminados++;
             delete *posZombies;
             posZombies = zombies.erase(posZombies);
         } else {
@@ -270,9 +278,10 @@ void Juego::siguienteTurno() {
     if (tiempoDescanso > 0) {
         tiempoDescanso--;
         cout << "\n---- TIEMPO DE PREPARACION ----" << endl;
-        cout << "La oleada " << oleadas << " comenzara en: " << tiempoDescanso << " turnos" << endl;
+        cout << "La oleada " << oleadas + 1 << " comenzara en: " << tiempoDescanso << " turnos" << endl;
 
         if (tiempoDescanso == 0) {
+            oleadas++;
             zombisGenerados = 0;
             zombisPorOleada = 5 + (oleadas * 2);
             cout << "\n---- INICIA LA OLEADA " << oleadas << " !!" << endl;
@@ -302,7 +311,6 @@ void Juego::siguienteTurno() {
             exit(0);
         }
 
-        oleadas++;
         tiempoDescanso = 5;
         cout << "Tienes " << tiempoDescanso << " turnos para plantar" << endl;
     }
@@ -405,7 +413,7 @@ void Juego::colocarPlanta() {
     if (tablero->estaVacia(fila, columna)) {
         tablero->colocarPlanta(plantaEleccion, fila, columna);
         soles -= costo;
-        cout << "Planta "<< plantaEleccion -> getNombre() << " ha sido colocada!" << endl;
+        cout << plantaEleccion -> getNombre() << " ha sido colocada!" << endl;
     } else {
         cout << "Esta casilla ya esta ocupada o fuera de rango!" << endl;
         delete plantaEleccion;
@@ -462,7 +470,7 @@ void Juego::guardarDatos() {
     puntos = (oleadas * 100) + (zombiesEliminados * 10) - (danioRecibido/2);
 
     sistema_->setDatos(
-        nombreUsuario,
+     nombreUsuario,
         oleadas,
         zombiesEliminados,
         soles,
@@ -475,8 +483,7 @@ void Juego::guardarJuego() {
     cout <<"\n---------- GUARDAR PARTIDA ----------" << endl;
     cout << "Ingresa el nombre para su archivo de guardado (ej. MiPartida.txt): ";
 
-    //getline para leer nombres con espacios, o cin que no esperen espacios
-    cin.ignore();     //Limpia el buffer de cualquier salto de linea del cin anterior
+    cin.ignore();
     getline(cin, nombreArchivo);
 
     guardarDatos();
