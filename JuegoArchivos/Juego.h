@@ -18,6 +18,7 @@ private:
     int oleadas;
     int puntos;
     int turnoActual;
+    int contadorSolesCaidos;
     const int TURNOS_MAXIMOS = 70;
     SistemaGuardado* sistema_;
 
@@ -28,7 +29,7 @@ private:
 
 public:
     Juego():tablero(new Tablero), soles(50), oleadas(1), puntos(0), turnoActual(1),
-    sistema_(new SistemaGuardado()), zombiesEliminados(0), danioRecibido(0) {}
+    sistema_(new SistemaGuardado()), zombiesEliminados(0), danioRecibido(0), contadorSolesCaidos(0) {}
 
     ~Juego();
 

@@ -19,7 +19,16 @@ void Juego::mostrarMenu() {
         cout << "2. Ver Datos" << endl;
         cout << "3. Cargar juego" << endl;
         cout << "4. Salir" << endl;
-        cout << "-------> Elige una opcion <-------" << endl; cin >> opcion;
+        cout << "-------> Elige una opcion <-------" << endl;
+
+        if (!(cin >> opcion)) {
+            cout << "Error, debes ingresar un numero ( 1-4 )" << endl;
+            cin.clear(); // Limpia el estado de error
+            cin.ignore(10000, '\n'); // Borra el texto basura del buffer
+            opcion = -1; // Pone un valor invalido para que el bucle se repita
+            continue;
+        }
+
         switch(opcion) {
             case 1:
                 jugar();
@@ -110,9 +119,15 @@ void Juego::mostrarDatos() {
 
 void Juego::siguienteTurno() {
     cout << "\n--- TURNO " << turnoActual << " ---" << endl;
-    turnoActual++;
+    turnoActual++; contadorSolesCaidos++;
+
+    if (contadorSolesCaidos >= 3) {
+        soles += 25;
+        contadorSolesCaidos = 0;
+    }
 
     bool hayHielo = false, congelacionGlobal = false;
+
     // TURNO DE LAS PLANTAS
     for (int i = 0; i < tablero->getFila(); i++) {
         for (int j = 0; j < tablero->getColumna(); j++) {
@@ -234,7 +249,6 @@ void Juego::siguienteTurno() {
     auto posZombies = zombies.begin();
     while (posZombies != zombies.end()) {
         if ((*posZombies)->getVida() <= 0) {
-            cout << "¡Un zombie ha muerto!" << endl;
             delete *posZombies;
             posZombies = zombies.erase(posZombies);
         } else {
@@ -246,7 +260,6 @@ void Juego::siguienteTurno() {
         for (int j = 0; j < tablero->getColumna(); j++) {
             Planta* _planta = tablero->getPlanta(i, j);
             if (_planta != nullptr && _planta->getVida() <= 0) {
-                cout << "Una planta ha muerto en (" << i << "," << j << ")" << endl;
                 delete _planta;
                 tablero->eliminarPlanta(i, j);
             }
@@ -296,16 +309,30 @@ void Juego::crearZombie() {
 void Juego::colocarPlanta() {
 
     int opcion;
-    cout << "\n----- COLOCAR PLANTAS (Soles: " << soles << ") -----" << endl;
-    cout << "1. Girasol (50 soles)" << endl;
-    cout << "2. Seta Defensiva (50 soles)" << endl;
-    cout << "3. Cactus (100 soles)" << endl;
-    cout << "4. Planta Hielo (175 soles)" << endl;
-    cout << "5. CherryBomb (150 soles)" << endl;
-    cout << "0. Cancelar" << endl;
+    do {
+        cout << "\n----- COLOCAR PLANTAS (Soles: " << soles << ") -----" << endl;
+        cout << "1. Girasol (50 soles)" << endl;
+        cout << "2. Seta Defensiva (50 soles)" << endl;
+        cout << "3. Cactus (100 soles)" << endl;
+        cout << "4. Planta Hielo (175 soles)" << endl;
+        cout << "5. CherryBomb (150 soles)" << endl;
+        cout << "0. Cancelar" << endl;
 
-    cout << "Elige una planta:";
-    cin >> opcion;
+        cout << "Elige una planta:";
+
+        if (!(cin >> opcion)) {
+            cout << "Error, debes ingresar un numero" << endl;
+            cin.clear(); // Limpia el estado de error de cin
+            cin.ignore(10000, '\n'); // Ignora lo que escribio el usuario hasta el enter
+            opcion = -1; // Mantenemos el valor invalido para repetir el bucle
+            continue;
+        }
+
+        if (opcion < 0 || opcion > 5) {
+            cout << "Opcion incorrecta, elige entre 0 y 5" << endl;
+        }
+
+    }while ( opcion < 0 || opcion > 5 );
 
     if (opcion == 0)
         return;
@@ -376,7 +403,6 @@ void Juego::removerPlanta() {
         return;
     }
 
-    cout << "Columna: ";
     if (!(cin>>columnaIngresada)) {
         cout << "Entrada invalida. Intentelo nuevamente." << endl;
         cin.clear();
