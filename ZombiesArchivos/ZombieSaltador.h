@@ -7,7 +7,7 @@ class ZombieSaltador : public Zombie {
 private:
     bool tienePertiga;
 public:
-    ZombieSaltador(int _fila) : Zombie('J',120, 10,2, _fila, "Zombie Saltador") { tienePertiga = true;}
+    ZombieSaltador(int _fila) : Zombie('J',220, 10,2, _fila, "Zombie Saltador") { tienePertiga = true;}
 
     int mover() override;
     void atacar(Planta* _planta) override;

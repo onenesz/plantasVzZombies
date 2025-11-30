@@ -7,7 +7,7 @@
 class SetaDefensiva : public Planta {
 
 public:
-    SetaDefensiva():Planta('S', 50, 0, 300, 0, "Planta Seta Defensiva"){}
+    SetaDefensiva():Planta('s', 50, 0, 300, 0, "Planta Seta Defensiva"){}
     int activar() override;
 };
 

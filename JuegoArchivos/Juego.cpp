@@ -213,17 +213,17 @@ void Juego::siguienteTurno() {
         if (plantaEnPosicion != nullptr) {
 
             ZombieSaltador* saltador = dynamic_cast<ZombieSaltador*>(z); //Verificamos si z es un zombie saltador
+
             if (saltador != nullptr && saltador->getTienePertiga()) {
                 cout << z->getNombre() << " ha saltado con su pertiga" << endl;
                 saltador->setTienePertiga(false);
                 z->aplicarMovimiento(2);
             } else {
-                cout << "Zombie atacando planta en (" << z->getFila() << "," << z->getColumna() << ")" << endl;
                 z->atacar(plantaEnPosicion);
                 this -> danioRecibido += z->getDanio();
 
                 if (plantaEnPosicion->getNombre() == "Planta Cactus") {
-                    cout << "El zombi se pincho con el Cactus" << endl;
+                    cout << "El cactus ha activado su habilidad de pinchos y el zombie se ha pinchado en la posición [" << z->getFila() << ", " << z ->getColumna()<< "]" << endl;
                     *z -= plantaEnPosicion -> getDanio();
                 }
             }
@@ -509,7 +509,7 @@ void Juego::cargarJuego() {
         this->puntos = sistema_->getPuntosFinales();
 
 
-        cout << "Partida cargada con éxito. Continuando el juego..." << endl;
+        cout << "Partida cargada con exito. Continuando el juego..." << endl;
         jugar();
     } else {
         cout << "No se pudo cargar la partida de nombre: " << nombreArchivo << endl;

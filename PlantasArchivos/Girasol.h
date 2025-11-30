@@ -9,7 +9,7 @@ private:
     int contadorTurnos;
     int contadorRayo;
 public:
-    Girasol():Planta('G', 50, 0, 80, 0, "Planta Girasol"){ contadorTurnos = 0; contadorRayo = 0; }
+    Girasol():Planta('g', 50, 0, 80, 0, "Planta Girasol"){ contadorTurnos = 0; contadorRayo = 0; }
     int activar() override;
 };
 

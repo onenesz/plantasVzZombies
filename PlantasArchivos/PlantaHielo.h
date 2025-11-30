@@ -8,7 +8,7 @@ class PlantaHielo : public Planta {
 private:
     int contadorCongelacionTotal;
 public:
-    PlantaHielo():Planta('H', 225, 0, 100, 15, "Planta Hielo"){ contadorCongelacionTotal = 0; }
+    PlantaHielo():Planta('h', 225, 0, 100, 15, "Planta Hielo"){ contadorCongelacionTotal = 0; }
     int activar() override;
 };
 

@@ -5,7 +5,7 @@
 
 class ZombieCongelado : public Zombie {
 public:
-    ZombieCongelado(int _fila):Zombie('L', 150, 15, 2,_fila, "Zombie Congelado") {}
+    ZombieCongelado(int _fila):Zombie('L', 250, 15, 2,_fila, "Zombie Congelado") {}
 
     int mover () override;
     void atacar(Planta *_planta) override;
