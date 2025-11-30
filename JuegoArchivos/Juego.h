@@ -19,7 +19,9 @@ private:
     int puntos;
     int turnoActual;
     int contadorSolesCaidos;
-    const int TURNOS_MAXIMOS = 70;
+    int zombisGenerados;
+    int zombisPorOleada;
+    int tiempoDescanso;
     SistemaGuardado* sistema_;
 
     //NUEVOS ATRIBUTOS PARA EL GUARDADO
@@ -29,7 +31,8 @@ private:
 
 public:
     Juego():tablero(new Tablero), soles(50), oleadas(1), puntos(0), turnoActual(1),
-    sistema_(new SistemaGuardado()), zombiesEliminados(0), danioRecibido(0), contadorSolesCaidos(0) {}
+    sistema_(new SistemaGuardado()), zombiesEliminados(0), danioRecibido(0), contadorSolesCaidos(0),
+    zombisGenerados(0), zombisPorOleada(0), tiempoDescanso(5) {}
 
     ~Juego();
 

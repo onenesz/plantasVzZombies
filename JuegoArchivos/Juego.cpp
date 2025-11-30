@@ -121,7 +121,7 @@ void Juego::siguienteTurno() {
     cout << "\n--- TURNO " << turnoActual << " ---" << endl;
     turnoActual++; contadorSolesCaidos++;
 
-    if (contadorSolesCaidos >= 3) {
+    if (contadorSolesCaidos >= 5) {
         soles += 25;
         contadorSolesCaidos = 0;
     }
@@ -267,19 +267,46 @@ void Juego::siguienteTurno() {
     }
     //---------------------------------------------------------------------------------
 
-    if (rand() % 3 == 0) {
-        crearZombie();
+    if (tiempoDescanso > 0) {
+        tiempoDescanso--;
+        cout << "\n---- TIEMPO DE PREPARACION ----" << endl;
+        cout << "La oleada " << oleadas << " comenzara en: " << tiempoDescanso << " turnos" << endl;
+
+        if (tiempoDescanso == 0) {
+            zombisGenerados = 0;
+            zombisPorOleada = 5 + (oleadas * 2);
+            cout << "\n---- INICIA LA OLEADA " << oleadas << " !!" << endl;
+        }
+
+        mostrarDatos();
+        return;
     }
 
-    //CONDICION DE VICTORIA
-    if (turnoActual >= TURNOS_MAXIMOS && zombies.empty()) {
-        cout << "\n=======================================" << endl;
-        cout << "                VICTORIA!               " << endl;
-        cout << "========================================" << endl;
-        exit(0);
+    if (zombisGenerados < zombisPorOleada) {
+        if (rand() % 3 == 0) {
+            crearZombie();
+            zombisGenerados++;
+            cout << "Zombis restantes por salir: " << (zombisPorOleada - zombisGenerados) << endl;
+        }
     }
 
-    //ESTADO DE LAS PLANTAS Y ZOMBIES
+    else if (zombies.empty()) {
+        cout << "\n OLEADA " << oleadas << " COMPLETADA!!" << endl;
+        cout << "Recompensa: 150 Soles por sobrevivir" << endl;
+        soles += 150;
+
+        if (oleadas >= 5) {
+            cout << "\n=======================================" << endl;
+            cout << "           VICTORIA TOTAL              " << endl;
+            cout << "=======================================" << endl;
+            exit(0);
+        }
+
+        oleadas++;
+        tiempoDescanso = 5;
+        cout << "Tienes " << tiempoDescanso << " turnos para plantar" << endl;
+    }
+
     mostrarDatos();
 }
 
@@ -314,7 +341,7 @@ void Juego::colocarPlanta() {
         cout << "1. Girasol (50 soles)" << endl;
         cout << "2. Seta Defensiva (50 soles)" << endl;
         cout << "3. Cactus (100 soles)" << endl;
-        cout << "4. Planta Hielo (175 soles)" << endl;
+        cout << "4. Planta Hielo (225 soles)" << endl;
         cout << "5. CherryBomb (150 soles)" << endl;
         cout << "0. Cancelar" << endl;
 
@@ -352,7 +379,7 @@ void Juego::colocarPlanta() {
             costo = 100;
             break;
         case 4: plantaEleccion = new PlantaHielo();
-            costo = 175;
+            costo = 225;
             break;
         case 5: plantaEleccion = new CherryBomb();
             costo = 150;
